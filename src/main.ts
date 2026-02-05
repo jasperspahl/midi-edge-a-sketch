@@ -12,30 +12,35 @@ let selectingstate: "X" | "Y" | null = null;
 let xControl: number | null = null;
 let yControl: number | null = null;
 let state: { x: number, y: number } = { x: 0, y: 0 };
+let sketch: p5 | undefined = undefined;
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
 
 function startSketch() {
-  new p5(p => {
+  if (sketch != undefined) {
+    return;
+  }
+  sketch = new p5(p => {
     let x: number, y: number;
     let clear = false;
 
 
     p.setup = () => {
-      p.createCanvas(600, 600)
+      p.createCanvas(600, 600, p.WEBGL)
       p.background("#fffced");
-      x = p.map(state.x, 0, 127, -p.width / 2, p.width / 2);
-      y = p.map(state.y, 0, 127, p.height / 2, -p.height / 2);
+      x = p.map(state.x, 0, 127, 0, 600);
+      y = p.map(state.y, 0, 127, 600, 0);
       p.strokeWeight(600 / 127);
     }
 
     p.draw = () => {
+      p.translate(-300, -300)
       if (clear) {
         p.background("#fffced");
         clear = false;
       }
-      let newX = p.map(state.x, 0, 127, -p.width / 2, p.width / 2);
-      let newY = p.map(state.y, 0, 127, p.height / 2, -p.height / 2);
+      let newX = p.map(state.x, 0, 127, 0, 600);
+      let newY = p.map(state.y, 0, 127, 600, 0);
       p.line(x, y, newX, newY);
       x = newX;
       y = newY;
