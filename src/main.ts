@@ -22,21 +22,20 @@ function startSketch() {
 
 
     p.setup = () => {
-      p.createCanvas(600, 600, p.WEBGL)
+      p.createCanvas(600, 600)
       p.background("#fffced");
-      x = p.map(state.x, 0, 127, 0, 600);
-      y = p.map(state.y, 0, 127, 600, 0);
+      x = p.map(state.x, 0, 127, -p.width / 2, p.width / 2);
+      y = p.map(state.y, 0, 127, p.height / 2, -p.height / 2);
       p.strokeWeight(600 / 127);
     }
 
     p.draw = () => {
-      p.translate(-p.width / 2, -p.height / 2)
       if (clear) {
         p.background("#fffced");
         clear = false;
       }
-      let newX = p.map(state.x, 0, 127, 0, 600);
-      let newY = p.map(state.y, 0, 127, 600, 0);
+      let newX = p.map(state.x, 0, 127, -p.width / 2, p.width / 2);
+      let newY = p.map(state.y, 0, 127, p.height / 2, -p.height / 2);
       p.line(x, y, newX, newY);
       x = newX;
       y = newY;
