@@ -1,0 +1,47 @@
+name: Deploy static content to Pages
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the "develop" branch
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets the GITHUB_TOKEN permissions to allow deplayment to Github Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency: 
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment: 
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Insall dependencies
+        run: npm install
+      - name: Build
+        run: npm run build-pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
