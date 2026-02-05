@@ -1,0 +1,30 @@
+.error {
+	padding: 1em;
+	background-color: #f44336;
+	color: white;
+	margin-bottom: 1em;
+	border-radius: .5em;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.info {
+	padding: 1em;
+	background-color: #2196f3;
+	color: white;
+	margin-bottom: 1em;
+	border-radius: .5em;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.close {
+	background-color: inherit;
+}
+.close:hover {
+	background-color: #000a;
+	border-color: #000a;
+}
