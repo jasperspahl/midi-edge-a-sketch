@@ -4,7 +4,8 @@ import { error, info } from "./errors";
 
 import p5 from "p5";
 
-
+// @ts-ignore
+import * as brush from "p5.brush";
 
 let midiInput: MIDIInput;
 
@@ -20,20 +21,26 @@ function startSketch() {
   if (sketch != undefined) {
     return;
   }
-  sketch = new p5(p => {
+  sketch = new p5(async p => {
     let x: number, y: number;
     let clear = false;
+    let loaded = false;
 
+    brush.instance(p)
 
-    p.setup = () => {
+    p.setup = async () => {
       p.createCanvas(600, 600, p.WEBGL)
+      brush.load()
       p.background("#fffced");
       x = p.map(state.x, 0, 127, 0, 600);
       y = p.map(state.y, 0, 127, 600, 0);
       p.strokeWeight(600 / 127);
+      brush.field("seabed");
+      loaded = true;
     }
 
     p.draw = () => {
+      if (!loaded) return;
       p.translate(-300, -300)
       if (clear) {
         p.background("#fffced");
@@ -41,7 +48,7 @@ function startSketch() {
       }
       let newX = p.map(state.x, 0, 127, 0, 600);
       let newY = p.map(state.y, 0, 127, 600, 0);
-      p.line(x, y, newX, newY);
+      brush.line(x, y, newX, newY);
       x = newX;
       y = newY;
     }
@@ -49,7 +56,7 @@ function startSketch() {
     p.keyPressed = () => {
       clear = true;
     }
-  }, document.getElementById("p5")!);
+  }, document.getElementById("p5Container")!);
 }
 
 function closeSettingsIfConfigured() {
