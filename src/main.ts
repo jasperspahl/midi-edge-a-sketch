@@ -1,6 +1,7 @@
 import "./styles.css"
 
 import { error, info } from "./errors";
+
 import p5 from "p5";
 
 
@@ -15,7 +16,7 @@ let state: { x: number, y: number } = { x: 0, y: 0 };
 const app = document.querySelector<HTMLDivElement>("#app")!;
 
 function startSketch() {
-  let sketch = new p5(p => {
+  new p5(p => {
     let x: number, y: number;
     let clear = false;
 
